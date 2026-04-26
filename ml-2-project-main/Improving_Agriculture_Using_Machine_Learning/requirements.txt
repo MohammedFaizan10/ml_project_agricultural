@@ -1,5 +1,5 @@
 streamlit
-tensorflow-cpu
+tensorflow-cpu==2.15.1
 scikit-learn
 scikit-image
 opencv-python-headless
