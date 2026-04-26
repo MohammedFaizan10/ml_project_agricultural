@@ -110,22 +110,24 @@ def extract_features(image):
 # --- Load Models ---
 @st.cache_resource
 def load_all_models():
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    
     # Soil CNN Model
-    with open('model/model1.json', "r") as json_file:
+    with open(os.path.join(BASE_DIR, 'model', 'model1.json'), "r") as json_file:
         cnn_classifier = model_from_json(json_file.read())
-    cnn_classifier.load_weights("model/model_weights1.h5")
+    cnn_classifier.load_weights(os.path.join(BASE_DIR, "model", "model_weights1.h5"))
     
     # Leaf CNN Model
-    with open('model/model.json', "r") as json_file:
+    with open(os.path.join(BASE_DIR, 'model', 'model.json'), "r") as json_file:
         cnn_model = model_from_json(json_file.read())
-    cnn_model.load_weights("model/model_weights.h5")
+    cnn_model.load_weights(os.path.join(BASE_DIR, "model", "model_weights.h5"))
     
     # PCA Model
-    with open('model/pca.txt', 'rb') as file:
+    with open(os.path.join(BASE_DIR, 'model', 'pca.txt'), 'rb') as file:
         pca = pickle.load(file)
         
     # Train Decision Tree Model on the fly using cpdata
-    df = pd.read_csv('cpdata.csv')
+    df = pd.read_csv(os.path.join(BASE_DIR, 'cpdata.csv'))
     X_train = df.iloc[:, 0:7].values
     y_train = df.iloc[:, 8].values
     dt_model = DecisionTreeRegressor()
