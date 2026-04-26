@@ -6,7 +6,7 @@ import pickle
 from tensorflow.keras.models import model_from_json
 from sklearn.tree import DecisionTreeRegressor
 from PIL import Image
-from skimage.feature import greycomatrix, greycoprops
+from skimage.feature import graycomatrix, graycoprops
 from skimage import color
 import scipy.stats as stats
 import os
@@ -62,7 +62,7 @@ def rgb2gray(image):
 
 def glcm(image, offsets=[1], angles=[0], squeeze=False):
     single_channel_image = image if len(image.shape) == 2 else rgb2gray(image)
-    gclm = greycomatrix(single_channel_image, offsets, angles)
+    gclm = graycomatrix(single_channel_image, offsets, angles)
     return np.squeeze(gclm) if squeeze else gclm
 
 def histogram_features_bucket_count(image):
@@ -82,9 +82,9 @@ def histogram_features(image):
 
 def glcm_features(glcm):
     return np.array([
-        greycoprops(glcm, 'correlation'), greycoprops(glcm, 'contrast'),
-        greycoprops(glcm, 'energy'), greycoprops(glcm, 'homogeneity'),
-        greycoprops(glcm, 'dissimilarity'),
+        graycoprops(glcm, 'correlation'), graycoprops(glcm, 'contrast'),
+        graycoprops(glcm, 'energy'), graycoprops(glcm, 'homogeneity'),
+        graycoprops(glcm, 'dissimilarity'),
     ]).flatten()
 
 def texture_features(full_image, offsets=[1], angles=[0], remove_green = True):
